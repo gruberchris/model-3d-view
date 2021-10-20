@@ -41,23 +41,43 @@ public class Renderer {
         shaderProgram.createFragmentShader(Utils.loadResource("/fragment.glsl"));
         shaderProgram.link();
 
-        float[] vertices = new float[]{
+        /*
+        float[] vertices = new float[] {
                 0.0f, 0.5f, 0.0f,
                 -0.5f, -0.5f, 0.0f,
                 0.5f, -0.5f, 0.0f
         };
 
+        float[] inverseTriangleVertices = new float[] {
+                0.0f, -0.5f, 0.0f,
+                -0.5f, 0.5f, 0.0f,
+                0.5f, 0.5f, 0.0f
+        };
+        */
+
+        float[] squareAndTriangleVertices = new float[]{
+                -0.5f, 0.5f, 0.0f,
+                -0.5f, -0.5f, 0.0f,
+                0.0f, -0.5f, 0.0f,
+                -0.5f, 0.5f, 0.0f,
+                0.0f, 0.5f, 0.0f,
+                0.0f, -0.5f, 0.0f,
+                0.0f, -0.5f, 0.0f,
+                0.5f, -0.5f, 0.0f,
+                0.5f, 0.5f, 0.0f
+        };
+
         FloatBuffer verticesBuffer = null;
 
         try {
-            verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
-            verticesBuffer.put(vertices).flip();
+            verticesBuffer = MemoryUtil.memAllocFloat(squareAndTriangleVertices.length);
+            verticesBuffer.put(squareAndTriangleVertices).flip();
 
             // Create the VAO and bind to it
             vaoId = glGenVertexArrays();
             glBindVertexArray(vaoId);
 
-            // Create the VBO and bint to it
+            // Create the VBO and bind to it
             vboId = glGenBuffers();
             glBindBuffer(GL_ARRAY_BUFFER, vboId);
             glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
@@ -96,7 +116,7 @@ public class Renderer {
         glBindVertexArray(vaoId);
 
         // Draw the vertices
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 9);
 
         // Restore state
         glBindVertexArray(0);
